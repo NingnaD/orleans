@@ -4,24 +4,20 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Orleans;
 using Orleans.Runtime;
+using Orleans.TestingHost;
 using TestInternalGrainInterfaces;
+using UnitTests.Tester;
 
 namespace UnitTests.ActivationsLifeCycleTests
 {
     [TestClass]
-    public class GrainActivateDeactivateTests : UnitTestBase
+    public class GrainActivateDeactivateTests : UnitTestSiloHost
     {
         private IActivateDeactivateWatcherGrain watcher;
 
         public GrainActivateDeactivateTests()
-            : base(new Options { StartFreshOrleans = true, StartSecondary = false }) // Only need single silo
+            : base(new TestingSiloOptions { StartFreshOrleans = true, StartSecondary = false }) // Only need single silo
         {
-        }
-
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            ResetDefaultRuntimes();
         }
 
         [TestInitialize]
@@ -153,7 +149,7 @@ namespace UnitTests.ActivationsLifeCycleTests
             ActivationId activation = await grain.DoSomething();
 
             await CheckNumActivateDeactivateCalls(1, 0, activation, "Before deactivation");
-            
+
             // Deactivate
             await grain.DoDeactivate();
             Thread.Sleep(TimeSpan.FromSeconds(2)); // Allow some time for deactivate to happen
@@ -164,7 +160,7 @@ namespace UnitTests.ActivationsLifeCycleTests
             ActivationId activation2 = await grain.DoSomething();
 
             Assert.AreNotEqual(activation, activation2, "New activation created after re-activate");
-            await CheckNumActivateDeactivateCalls(2, 1, new[] { activation, activation2}, "After reactivation");
+            await CheckNumActivateDeactivateCalls(2, 1, new[] { activation, activation2 }, "After reactivation");
         }
 
         [TestMethod, TestCategory("BVT"), TestCategory("Functional"), TestCategory("ActivateDeactivate")]
@@ -191,7 +187,6 @@ namespace UnitTests.ActivationsLifeCycleTests
             }
         }
 
-
         [TestMethod, TestCategory("BVT"), TestCategory("Functional"), TestCategory("ActivateDeactivate")]
         public async Task BadActivate_GetValue()
         {
@@ -216,7 +211,6 @@ namespace UnitTests.ActivationsLifeCycleTests
             }
         }
 
-
         [TestMethod, TestCategory("BVT"), TestCategory("Functional"), TestCategory("ActivateDeactivate")]
         public async Task BadActivate_Await_ViaOtherGrain()
         {
@@ -240,6 +234,7 @@ namespace UnitTests.ActivationsLifeCycleTests
                 Assert.IsTrue(e.Message.Contains("Application-OnActivateAsync"), "Did not get expected exception message returned: " + e.Message);
             }
         }
+
         [TestMethod, TestCategory("BVT"), TestCategory("Functional"), TestCategory("ActivateDeactivate")]
         public async Task Constructor_Bad_Await()
         {
