@@ -45,5 +45,6 @@ using System.Runtime.InteropServices;
 [assembly: InternalsVisibleTo("UnitTests")]
 [assembly: InternalsVisibleTo("OrleansCounterControl")]
 [assembly: InternalsVisibleTo("TesterInternal")]
+[assembly: InternalsVisibleTo("TestInternalGrains")]
 
 

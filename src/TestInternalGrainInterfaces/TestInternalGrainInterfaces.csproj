@@ -39,7 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivationGCTestGrainInterfaces.cs" />
     <Compile Include="IActivateDeactivateTestGrain.cs" />
+    <Compile Include="ICollectionTestGrain.cs" />
     <Compile Include="ISimpleSelfManagedGrain.cs" />
     <Compile Include="Properties\orleans.codegen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

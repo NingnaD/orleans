@@ -72,6 +72,11 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivationCollectorTests.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="AssemblyLoaderTests.cs" />
+    <Compile Include="DeactivateOnIdleTests.cs" />
     <Compile Include="General\BuiltInSerializerTests.cs" />
     <Compile Include="General\Identifiertests.cs" />
     <Compile Include="General\InterfaceRules.cs" />
@@ -184,6 +189,9 @@
     <Content Include="..\OrleansTestingHost\OrleansConfigurationForTesting.xml">
       <Link>OrleansConfigurationForTesting.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config_ActivationCollectorTests.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
