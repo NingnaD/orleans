@@ -57,8 +57,8 @@ namespace Orleans.TestingHost
     /// </remarks>
     public abstract class TestingSiloHost
     {
-        protected static SiloHandle Primary = null;
-        protected static SiloHandle Secondary = null;
+        public static SiloHandle Primary { get; private set; }
+        public static SiloHandle Secondary { get; private set; }
         protected static readonly List<SiloHandle> additionalSilos = new List<SiloHandle>();
         protected static readonly Dictionary<string, byte[]> additionalAssemblies = new Dictionary<string, byte[]>();
 
@@ -368,13 +368,21 @@ namespace Orleans.TestingHost
             return null;
         }
 
-        public virtual void AdjustForTest(ClusterConfiguration config)
+        public void AdjustForTest(ClusterConfiguration config, TestingSiloOptions options)
         {
+            if (options.AdjustConfig != null) {
+                options.AdjustConfig(config);
+            }
+
             config.AdjustForTestEnvironment();
         }
 
-        public virtual void AdjustForTest(ClientConfiguration config)
+        public void AdjustForTest(ClientConfiguration config, TestingClientOptions options)
         {
+            if (options.AdjustConfig != null) {
+                options.AdjustConfig(config);
+            }
+
             config.AdjustForTestEnvironment();
         }
 
@@ -519,7 +527,7 @@ namespace Orleans.TestingHost
                 {
                     clientConfig.LargeMessageWarningThreshold = options.LargeMessageWarningThreshold;
                 }
-                AdjustForTest(clientConfig);
+                AdjustForTest(clientConfig, clientOptions);
 
                 GrainClient.Initialize(clientConfig);
                 GrainFactory = GrainClient.GrainFactory;
@@ -599,7 +607,7 @@ namespace Orleans.TestingHost
 
             config.Overrides[siloName] = nodeConfig;
 
-            AdjustForTest(config);
+            AdjustForTest(config, options);
 
             WriteLog("Starting a new silo in app domain {0} with config {1}", siloName, config.ToString(siloName));
             AppDomain appDomain;

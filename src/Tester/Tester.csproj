@@ -120,7 +120,9 @@
     <Compile Include="StreamingTests\SMSDeactivationTests.cs" />
     <Compile Include="StreamingTests\SMSSubscriptionMultiplicityTests.cs" />
     <Compile Include="StreamingTests\SubscriptionMultiplicityTestRunner.cs" />
+    <Compile Include="TestHost.cs" />
     <Compile Include="TestStreamProviders\Controllable\ControllableTestStreamProvider.cs" />
+    <Compile Include="TestBase.cs" />
     <Compile Include="UnitTestSiloHost.cs" />
   </ItemGroup>
   <ItemGroup>
