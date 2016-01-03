@@ -103,7 +103,6 @@
     <Compile Include="GrainInterfaceHierarchyGrains.cs" />
     <Compile Include="LivenessTestGrain.cs" />
     <Compile Include="SpecializedSimpleGenericGrain.cs" />
-    <Compile Include="StreamLifecycleTestGrains.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OrleansEventSourcing\OrleansEventSourcing.csproj">
